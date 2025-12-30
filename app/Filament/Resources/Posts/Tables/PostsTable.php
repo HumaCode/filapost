@@ -17,17 +17,12 @@ class PostsTable
     public static function configure(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(fn(Builder $query) => $query->where('user_id', auth()->id())
-                ->orWhere(function ($query) {
-                    // // jika memiliki permission salah satu dari Post View. Post Edit dan Post Delete = tampil
-                    if (auth()->user()->canAny(['Post View', 'Post Edit', 'Post Delete'])) {
-                        $query->where('user_id', '!=', auth()->id());
-                    }
-
-                    // if (auth()->user()->canAny(['Post View'])) {
-                    //     $query->where('user_id', '!=', auth()->id());
-                    // }
-                }))
+            ->modifyQueryUsing(fn(Builder $query) => $query->where(function ($query) {
+                if (!auth()->user()->canAny(['Post View', 'Post Edit', 'Post Delete'])) {
+                    $query->where('user_id', auth()->id());
+                }
+            })
+                ->latest())
             ->columns([
                 TextColumn::make('title')
                     ->searchable(),
