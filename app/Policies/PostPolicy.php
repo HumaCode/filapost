@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Enums\PostStatusEnum;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
@@ -37,7 +38,7 @@ class PostPolicy
      */
     public function update(User $user, Post $post): bool
     {
-        return $user->can('Post Edit') || $user->id === $post->user_id;
+        return ($user->can('Post Edit') || $user->id === $post->user_id) && ($post->status === PostStatusEnum::Draft || $post->status === PostStatusEnum::Rejected);
     }
 
     /**
@@ -45,7 +46,7 @@ class PostPolicy
      */
     public function delete(User $user, Post $post): bool
     {
-        return $user->can('Post Delete') || $user->id === $post->user_id;
+        return ($user->can('Post Delete') || $user->id === $post->user_id) && ($post->status === PostStatusEnum::Draft || $post->status === PostStatusEnum::Rejected);
     }
 
     public function deleteAny(User $user): bool

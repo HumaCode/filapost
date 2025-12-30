@@ -44,6 +44,9 @@ class PostsTable
                     ->badge()
                     ->color('info')
                     ->searchable(),
+                TextColumn::make('status')
+                    ->badge()
+                    ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

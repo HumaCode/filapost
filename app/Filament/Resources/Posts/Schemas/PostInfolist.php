@@ -39,6 +39,8 @@ class PostInfolist
                                 ImageEntry::make('image'),
                                 TextEntry::make('user.name')
                                     ->label('Author'),
+                                TextEntry::make('status')
+                                    ->badge(),
                                 TextEntry::make('created_at')
                                     ->dateTime()
                                     ->placeholder('-'),
