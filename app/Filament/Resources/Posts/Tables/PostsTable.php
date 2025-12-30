@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Posts\Tables;
 
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
@@ -22,10 +23,14 @@ class PostsTable
                     ->searchable(),
                 ImageColumn::make('image'),
                 TextColumn::make('user.name')
+                    ->label('Author')
                     ->searchable(),
                 TextColumn::make('category.name')
+                    ->badge()
                     ->searchable(),
                 TextColumn::make('tags.name')
+                    ->badge()
+                    ->color('info')
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
@@ -42,6 +47,7 @@ class PostsTable
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
+                DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
